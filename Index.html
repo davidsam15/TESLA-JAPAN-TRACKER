@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesla Japan Tracker</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+body{margin:0;font-family:Arial,sans-serif}#map{height:80vh;width:100%}.tracker-container{padding:1rem;max-width:600px;margin:auto}.input-group{display:flex;gap:0.5rem;margin-bottom:1rem}input{flex:1;padding:.5rem;font-size:1rem}button{padding:.5rem 1rem;font-size:1rem;cursor:pointer}.status{font-weight:bold;font-size:1.2rem;margin-top:.5rem}
+</style>
+</head>
+<body>
+<div class="tracker-container">
+<h1>Tesla Japan Tracker</h1>
+<div class="input-group">
+<input type="text" id="trackingInput" placeholder="Enter Tracking ID">
+<button onclick="updateTracking()">Track</button>
+</div>
+<div class="status" id="status">Status: --</div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+const map=L.map('map').setView([35.627,139.763],10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+let marker=L.marker([35.627,139.763]).addTo(map);
+function moveMarker(){let l=marker.getLatLng();marker.setLatLng([l.lat+(Math.random()-.5)*.002,l.lng+(Math.random()-.5)*.002]);}
+setInterval(moveMarker,3000);
+function updateTracking(){const i=document.getElementById('trackingInput').value.trim();if(!i)return;document.getElementById('status').textContent=`Tracking ID: ${i} | Status: On Hold`;marker.setLatLng([35.627,139.763]);map.setView([35.627,139.763],10);}
+document.getElementById('trackingInput').value='TESLA-JP-2511-784632';updateTracking();
+</script>
+</body>
+</html>
